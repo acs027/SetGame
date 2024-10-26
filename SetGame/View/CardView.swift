@@ -15,19 +15,21 @@ struct CardView: View {
     }
     
     var body: some View {
-        Pie(endAngle: .degrees(240))
-            .opacity(0.5)
-            .overlay {
-                VStack(spacing: 10) {
-                    ForEach((1...card.number), id: \.self) { _ in
-                        cardComponent
-                            .foregroundStyle(Color.cardColor(card.color))
-                            .aspectRatio(2, contentMode: .fit)
+        TimelineView(.animation) { timeline in
+            Pie(endAngle: .degrees(360 - card.timeLeft * 360))
+                .opacity(0.5)
+                .overlay {
+                    VStack(spacing: 10) {
+                        ForEach((1...card.number), id: \.self) { _ in
+                            cardComponent
+                                .foregroundStyle(Color.cardColor(card.color))
+                                .aspectRatio(2, contentMode: .fit)
+                        }
                     }
                 }
-            }
-            .padding()
-            .cardify(isSelected: card.isSelected)
+                .padding()
+                .cardify(isFaceUp: card.isFaceUp, isSelected: card.isSelected)
+        }
     }
     
     @ViewBuilder
